@@ -2,7 +2,7 @@ package produtos.model;
 
 public abstract class  Produto {
 	
-	private long idProuto;
+	private long idProduto;
 	private String nomeProduto;
 	 
 	private String categoria;
@@ -11,8 +11,8 @@ public abstract class  Produto {
 	
 	
 	
-	public Produto(long idProuto, String nomeProduto,  String categoria, double preco, int estoque) {
-		this.idProuto = idProuto;
+	public Produto(long idProduto, String nomeProduto,  String categoria, double preco, int estoque) {
+		this.idProduto = idProduto;
 		this.nomeProduto = nomeProduto;
 		 
 		this.categoria = categoria;
@@ -22,14 +22,14 @@ public abstract class  Produto {
 
 	
 
-	public long getIdProuto() {
-		return idProuto;
+	public long getIdProduto() {
+		return idProduto;
 	}
 
 
 
-	public void setIdProuto(long idProuto) {
-		this.idProuto = idProuto;
+	public void setIdProduto(long idProduto) {
+		this.idProduto = idProduto;
 	}
 
 

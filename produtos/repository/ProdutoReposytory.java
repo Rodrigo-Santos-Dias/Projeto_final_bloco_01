@@ -7,6 +7,6 @@ public interface ProdutoReposytory {
     public void atualizar(Produto produto);
     public void deletar(long id);
     
-    public void atualizarEstoque(long id, int quantidade);
+    public void atualizarEstoque(long id, int estoque);
     public void listarPorCategoria(String categoria);
 }

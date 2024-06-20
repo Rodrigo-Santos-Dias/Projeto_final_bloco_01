@@ -16,7 +16,19 @@ public class ProdutoNacional extends Produto {
     public void setImpostoNacional(double impostoNacional) {
         this.impostoNacional = impostoNacional;
     }
+    
+    
+    public double calcularPrecoFinal() {
+        return getPreco() + (getPreco() * (impostoNacional / 100));
+    }
 
+    public String descricaoDetalhada() {
+        return "Produto Nacional [ID=" + getIdProduto() + ", Nome=" + getNomeProduto() + ", Categoria=" + getCategoria() + 
+                ", Preço=" + getPreco() + ", Estoque=" + getEstoque() + ", Imposto Nacional=" + impostoNacional + 
+                 ", Preço Final=" + calcularPrecoFinal() + "]";
+    }
+    
+    
     @Override
     public String toString() {
         return super.toString() + ", ProdutoNacional [impostoNacional=" + impostoNacional + "]";

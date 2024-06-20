@@ -30,4 +30,12 @@ public class ProdutoImportado extends Produto {
 	    public String toString() {
 	        return super.toString() + ", ProdutoImportado [taxaImportacao=" + taxaImportacao + ", paisOrigem=" + paisOrigem + "]";
 	    }
+	    
+	    public double caulcularPrecoFinal() {
+	    	return getPreco() + (getPreco() * (taxaImportacao / 100));
+	    }
+	    
+	    public boolean localOrigem(String pais) {
+	    	return this.paisOrigem.equalsIgnoreCase(pais);
+	    }
 }
