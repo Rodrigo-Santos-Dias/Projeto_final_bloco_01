@@ -90,7 +90,15 @@ public abstract class  Produto {
 
 
 	public void visualizar() {
-
+		System.out.println("\n\n********************************************************");
+		System.out.println("Dados da Conta:");
+		System.out.println("***********************************************************");
+		System.out.println("Id Produto: " + this.idProduto);
+		System.out.println("Nome Do Produto: " + this.nomeProduto);
+		System.out.println("Categoria DO Produto: " + this.categoria);
+		System.out.println("Preço do produto: " + this.preco);
+		System.out.println("Quantidade Em Estoque: " + this.estoque);
+		System.out.println("***********************************************************");
 		}
 		
 		 

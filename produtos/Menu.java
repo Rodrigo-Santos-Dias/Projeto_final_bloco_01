@@ -1,16 +1,28 @@
 package produtos;
 
 import java.util.Scanner;
+
+import produtos.controller.ProdutoController;
+import produtos.model.ProdutoImportado;
+import produtos.model.ProdutoNacional;
+
 import java.io.IOException;
 import java.util.InputMismatchException;
+import produtos.util.MostraMenu;
 
 public class Menu {
 
     public static void main(String[] args) {
-        int opcaoTodes;
+        int opcaoTodes, estoque;
+        int opEscolha, opcaoVendedor;
+        String nomeProduto, categoria, paisOrigem;
+        double preco;
+        long id;
         Scanner sc = new Scanner(System.in);
+        ProdutoController produtos = new ProdutoController();
+
         while (true) {
-            exibirMenuTodes();
+            MostraMenu.exibirMenuTodes();
 
             try {
                 opcaoTodes = sc.nextInt();
@@ -19,83 +31,134 @@ public class Menu {
                 sc.nextLine();
                 opcaoTodes = 0;
             }
+
             if (opcaoTodes == 3) {
-                System.out.println("\nBanco do Brazil com Z - O seu Futuro começa aqui!");
-                sobre();
+                System.out.println("\nMercado da E-conomia - Sua Compra Em um Click!");
+                MostraMenu.sobre();
                 sc.close();
                 System.exit(0);
             }
 
             switch (opcaoTodes) {
                 case 1:
-                    exibirMenuVendedor();
-                    break;
+                    MostraMenu.exibirMenuVendedor();
+                    try {
+                        opcaoVendedor = sc.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("\nDigite valores inteiros!");
+                        sc.nextLine();
+                        opcaoVendedor = 0;
+                    }
+                    
+                    if (opcaoVendedor == 7) {
+                    	System.out.println("\n Mercado da E-CONOMIA - Sua Compra Em um Click!");
+                        MostraMenu.sobre();
+                        sc.close();
+                        System.exit(0);
+                    }
 
-                case 2:
-                    exibirMenuCliente();
+                    switch (opcaoVendedor) {
+                        case 1:
+                            sc.nextLine();  
+                            System.out.println("\nProduto Nacional: ");
+                            System.out.println("\nDigite Nome do Produto: ");
+                            nomeProduto = sc.nextLine();
+
+                            System.out.println("\nDigite a categoria do produto: ");
+                            categoria = sc.nextLine();
+
+                            System.out.println("\nDigite Preço do produto: ");
+                            preco = sc.nextDouble();
+                            estoque = 10;  
+                            produtos.cadastrar(new ProdutoNacional(produtos.gerarId(), nomeProduto, categoria, preco, estoque, 35.00));
+                            break;
+                        case 2:
+                            sc.nextLine();  
+                            System.out.println("\nProduto Importado: ");
+                            System.out.println("\nDigite Nome do Produto: ");
+                            nomeProduto = sc.nextLine();
+
+                            System.out.println("\nDigite a categoria do produto: ");
+                            categoria = sc.nextLine();
+
+                            System.out.println("\nDigite nome do pais de origem do produto: ");
+                            paisOrigem = sc.nextLine();
+
+                            System.out.println("\nDigite Preço do produto: ");
+                            preco = sc.nextDouble();
+                            estoque = 10;  
+                            produtos.cadastrar(new ProdutoImportado(produtos.gerarId(), nomeProduto, categoria, preco, estoque, 35.00, paisOrigem));
+                            break;
+                        case 3:
+                        	System.out.println("Listando todos os produtos: ");
+                            produtos.listarTodos();
+                            keyPress();
+                            break;
+                        case 4:
+                            System.out.println("\nProcurar por Id: ");
+                            System.out.println("\nDigite o Id do produto: ");
+                            id = sc.nextLong();
+                            produtos.procurarPorId(id);
+                            keyPress();
+                            break;
+                        case 5:
+                            System.out.println("Atualizar dados do Produto\n\n");
+                            System.out.println("Digite o ID do produto: ");
+                            id = sc.nextLong();
+                            var produto = produtos.buscarNaColecao(id);
+                            if (produto != null) {
+                                sc.nextLine();  
+
+                                System.out.println("Informe o novo nome do produto:");
+                                nomeProduto = sc.nextLine();
+
+                                System.out.println("Informe a nova categoria do produto:");
+                                categoria = sc.nextLine();
+
+                                System.out.println("Informe o novo preço do produto:");
+                                preco = sc.nextDouble();
+
+                                System.out.println("Informe a nova quantidade em estoque:");
+                                estoque = sc.nextInt();
+
+                                if (produto instanceof ProdutoNacional) {
+                                    System.out.println("Informe o novo imposto nacional:");
+                                    double impostoNacional = sc.nextDouble();
+                                    produtos.atualizar(new ProdutoNacional(id, nomeProduto, categoria, preco, estoque, impostoNacional));
+                                } else if (produto instanceof ProdutoImportado) {
+                                    System.out.println("Informe a nova taxa de importação:");
+                                    double taxaImportacao = sc.nextDouble();
+                                    sc.nextLine();  
+                                    System.out.println("Informe o novo país de origem:");
+                                    paisOrigem = sc.nextLine();
+                                    produtos.atualizar(new ProdutoImportado(id, nomeProduto, categoria, preco, estoque, taxaImportacao, paisOrigem));
+                                }
+                            } else {
+                                System.out.println("Produto não encontrado!");
+                            }
+                            keyPress();
+                            break;
+                        case 6:
+                            System.out.println("\nDeletar produto: ");
+                            System.out.println("\nDigite o Id do produto para excluí-lo: ");
+                            id = sc.nextLong();
+                            produtos.deletar(id);
+                            keyPress();
+                            break;      
+                        default:
+                            System.out.println("\nOpção inválida, tente novamente!");
+                            keyPress(); 
+                    }
                     break;
+                case 2:
+                    MostraMenu.exibirMenuTemporario();
+                    keyPress();
+                    break;
+                default:
+                    System.out.println("\nOpção inválida, tente novamente!");
+                    keyPress();
             }
         }
-    }
-
-    public static void exibirMenuVendedor() {
-        System.out.println("*****************************************************");
-        System.out.println("                                                     ");
-        System.out.println("                MERCADO DA ECONOMIA                  ");
-        System.out.println("                   MENU VENDEDOR                     ");
-        System.out.println("                                                     ");
-        System.out.println("*****************************************************");
-        System.out.println("                                                     ");
-        System.out.println("            1 - Cadastrar Produto Nacional           ");
-        System.out.println("            2 - Cadastrar Produto Importado          ");
-        System.out.println("            3 - Listar Produtos                      ");
-        System.out.println("            4 - Buscar Produto por ID                ");
-        System.out.println("            5 - Atualizar Estoque                    ");
-        System.out.println("            6 - Deletar Produto                      ");
-        System.out.println("            9 - Sair                                 ");
-        System.out.println("                                                     ");
-        System.out.println("*****************************************************");
-        System.out.println("Entre com a opção desejada:                          ");
-        System.out.println("                                                     ");
-    }
-
-    public static void exibirMenuTodes() {
-        System.out.println("*****************************************************");
-        System.out.println("                                                     ");
-        System.out.println("                MERCADO DA ECONOMIA                  ");
-        System.out.println("                   MENU VENDEDOR                     ");
-        System.out.println("                   VOCÊ É UM:                        ");
-        System.out.println("            [1]- VENDEDOR [2]-CLIENTE                ");
-        System.out.println("*****************************************************");
-        System.out.println("Entre com a opção correspondente:                     ");
-        System.out.println("                                                     ");
-    }
-
-    public static void exibirMenuCliente() {
-        System.out.println("*****************************************************");
-        System.out.println("                                                     ");
-        System.out.println("                MERCADO DA ECONOMIA                  ");
-        System.out.println("                   MENU CLIENTE                      ");
-        System.out.println("                                                     ");
-        System.out.println("*****************************************************");
-        System.out.println("                                                     ");
-        System.out.println("            1 - Pesquisar Produto                    ");
-        System.out.println("            2 - Adicionar ao Carrinho                ");
-        System.out.println("            3 - Fazer Cadastro                       ");
-        System.out.println("            4 - Listar Produtos                      ");
-        System.out.println("            9 - Sair                                 ");
-        System.out.println("                                                     ");
-        System.out.println("*****************************************************");
-        System.out.println("Entre com a opção desejada:                          ");
-        System.out.println("                                                     ");
-    }
-
-    public static void sobre() {
-        System.out.println("\n*********************************************************");
-        System.out.println("Projeto Desenvolvido por: ");
-        System.out.println("Generation Brasil - generation@generation.org");
-        System.out.println("github.com/conteudoGeneration");
-        System.out.println("*********************************************************");
     }
 
     public static void keyPress() {
@@ -107,3 +170,4 @@ public class Menu {
         }
     }
 }
+ 

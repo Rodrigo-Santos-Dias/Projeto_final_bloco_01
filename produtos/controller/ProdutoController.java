@@ -10,7 +10,7 @@ public class ProdutoController implements ProdutoReposytory {
 	    public void procurarPorId(long id) {
 	        Produto produto = buscarNaColecao(id);
 	        if (produto != null) {
-	            System.out.println(produto);
+	             produto.visualizar();
 	        } else {
 	            System.out.println("\nO produto com ID " + id + " não foi encontrado!");
 	        }
@@ -19,7 +19,7 @@ public class ProdutoController implements ProdutoReposytory {
 	    @Override
 	    public void listarTodos() {
 	        for (Produto produto : listaProdutos) {
-	            System.out.println(produto);
+	             produto.visualizar();
 	        }
 	    }
 
@@ -52,11 +52,11 @@ public class ProdutoController implements ProdutoReposytory {
 	        }
 	    }
 
-	    private long gerarId() {
-	        return ++idProduto;
+	    public long gerarId() {
+	        return  idProduto+1;
 	    }
 
-	    private Produto buscarNaColecao(long id) {
+	    public Produto buscarNaColecao(long id) {
 	        for (Produto produto : listaProdutos) {
 	            if (produto.getIdProduto() == id) {
 	                return produto;
